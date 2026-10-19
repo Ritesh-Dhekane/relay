@@ -4,6 +4,8 @@
 import type { RelayForm } from './form'
 import { buttonCss } from './styles'
 
+const FORM_PARTS =
+  'form, heading, intro, label, label-text, optional, input, select, textarea, error, form-error, counter, actions, button, primary, secondary, note, done, link'
 const FORWARD = ['source', 'kind', 'fields', 'whatsapp', 'email', 'topic', 'greeting', 'subject', 'heading', 'intro']
 const ICON =
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8.5 8.5 0 0 1-12.4 7.5L3 21l1.6-5.3A8.5 8.5 0 1 1 21 12z"/></svg>'
@@ -14,9 +16,9 @@ export class RelayButton extends HTMLElement {
   connectedCallback() {
     const label = this.getAttribute('label') || "Let's talk"
     this.root.innerHTML = `<style>${buttonCss}</style>
-      <button class="fab" type="button" aria-haspopup="dialog" aria-label="${label}">${ICON}<span class="text">${label}</span></button>
-      <dialog aria-label="${this.getAttribute('heading') || label}">
-        <button class="close" type="button" aria-label="Close">×</button>
+      <button class="fab" part="fab" type="button" aria-haspopup="dialog" aria-label="${label}">${ICON}<span class="text" part="fab-text">${label}</span></button>
+      <dialog part="dialog" aria-label="${this.getAttribute('heading') || label}">
+        <button class="close" part="close" type="button" aria-label="Close">×</button>
       </dialog>`
     this.root.querySelector('.fab')!.addEventListener('click', () => this.open())
     const dialog = this.root.querySelector('dialog')!
@@ -31,6 +33,8 @@ export class RelayButton extends HTMLElement {
     if (!dialog) return
     dialog.querySelector('relay-form')?.remove()
     const form = document.createElement('relay-form') as RelayForm
+    // Re-export the form's parts so pages can style them as relay-button::part(input) etc.
+    form.setAttribute('exportparts', FORM_PARTS)
     for (const name of FORWARD) {
       const value = overrides[name] ?? this.getAttribute(name)
       if (value) form.setAttribute(name, value)
