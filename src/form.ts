@@ -17,29 +17,29 @@ const DEFAULT_FIELDS = 'name,email,phone,message'
 
 const esc = (s: string) => s.replace(/[&<>"']/g, (ch) => `&#${ch.charCodeAt(0)};`)
 // The label's text sits in one span, so "(optional)" stays on the same line as the label.
-const lbl = (text: string) => `<span>${text} <span class="opt">(optional)</span></span>`
+const lbl = (text: string) => `<span part="label-text">${text} <span class="opt" part="optional">(optional)</span></span>`
 
 function fieldHtml(key: string, topic: string): string {
   switch (key) {
     case 'name':
-      return `<label>${lbl('Name')}<input name="name" autocomplete="name" maxlength="${LIMITS.name}"><span class="err" id="e-name"></span></label>`
+      return `<label part="label">${lbl('Name')}<input part="input" name="name" autocomplete="name" maxlength="${LIMITS.name}"><span class="err" part="error" id="e-name"></span></label>`
     case 'email':
-      return `<label>${lbl('Email')}<input name="email" type="email" autocomplete="email" inputmode="email" maxlength="${LIMITS.email}" placeholder="name@example.com"><span class="err" id="e-email"></span></label>`
+      return `<label part="label">${lbl('Email')}<input part="input" name="email" type="email" autocomplete="email" inputmode="email" maxlength="${LIMITS.email}" placeholder="name@example.com"><span class="err" part="error" id="e-email"></span></label>`
     case 'phone':
-      return `<label>${lbl('Phone / WhatsApp')}<span class="phone">
-        <select name="country" aria-label="Country code">${COUNTRIES.map((c) => `<option value="${c.code}">+${c.code} ${c.label}</option>`).join('')}</select>
-        <input name="phone" type="tel" autocomplete="tel-national" inputmode="tel" maxlength="20" placeholder="98765 43210">
-      </span><span class="err" id="e-phone"></span></label>`
+      return `<label part="label">${lbl('Phone / WhatsApp')}<span class="phone">
+        <select part="input select" name="country" aria-label="Country code">${COUNTRIES.map((c) => `<option value="${c.code}">+${c.code} ${c.label}</option>`).join('')}</select>
+        <input part="input" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" maxlength="20" placeholder="98765 43210">
+      </span><span class="err" part="error" id="e-phone"></span></label>`
     case 'company':
-      return `<label>${lbl('Company')}<input name="company" autocomplete="organization" maxlength="${LIMITS.company}"><span class="err" id="e-company"></span></label>`
+      return `<label part="label">${lbl('Company')}<input part="input" name="company" autocomplete="organization" maxlength="${LIMITS.company}"><span class="err" part="error" id="e-company"></span></label>`
     case 'topic':
-      return `<label>${lbl('What’s it about?')}<input name="topic" maxlength="${LIMITS.topic}" value="${esc(topic)}" placeholder="e.g. a booking website"><span class="err" id="e-topic"></span></label>`
+      return `<label part="label">${lbl('What’s it about?')}<input part="input" name="topic" maxlength="${LIMITS.topic}" value="${esc(topic)}" placeholder="e.g. a booking website"><span class="err" part="error" id="e-topic"></span></label>`
     case 'budget':
-      return `<label>${lbl('Budget')}<select name="budget"><option value="">Choose…</option>${BUDGETS.map((b) => `<option>${b}</option>`).join('')}</select></label>`
+      return `<label part="label">${lbl('Budget')}<select part="input select" name="budget"><option value="">Choose…</option>${BUDGETS.map((b) => `<option>${b}</option>`).join('')}</select></label>`
     case 'timeline':
-      return `<label>${lbl('Timeline')}<select name="timeline"><option value="">Choose…</option>${TIMELINES.map((t) => `<option>${t}</option>`).join('')}</select></label>`
+      return `<label part="label">${lbl('Timeline')}<select part="input select" name="timeline"><option value="">Choose…</option>${TIMELINES.map((t) => `<option>${t}</option>`).join('')}</select></label>`
     case 'message':
-      return `<label>${lbl('Message')}<textarea name="message" maxlength="${LIMITS.message}" placeholder="A few lines about what you need"></textarea><span class="count" aria-live="polite"></span><span class="err" id="e-message"></span></label>`
+      return `<label part="label">${lbl('Message')}<textarea part="input textarea" name="message" maxlength="${LIMITS.message}" placeholder="A few lines about what you need"></textarea><span class="count" part="counter" aria-live="polite"></span><span class="err" part="error" id="e-message"></span></label>`
     default:
       return ''
   }
@@ -81,17 +81,17 @@ export class RelayForm extends HTMLElement {
     const heading = this.getAttribute('heading')
     const intro = this.getAttribute('intro')
     this.root.innerHTML = `<style>${css}</style>
-      <form novalidate>
-        ${heading ? `<h2>${esc(heading)}</h2>` : ''}
-        ${intro ? `<p class="intro">${esc(intro)}</p>` : ''}
+      <form novalidate part="form">
+        ${heading ? `<h2 part="heading">${esc(heading)}</h2>` : ''}
+        ${intro ? `<p class="intro" part="intro">${esc(intro)}</p>` : ''}
         ${parts.join('')}
         <input class="sr" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <p class="err" id="e-form" role="alert"></p>
-        <div class="actions">
-          ${wa ? '<button type="submit" class="primary" value="whatsapp">Send on WhatsApp</button>' : ''}
-          ${em ? `<button type="submit" class="${wa ? 'secondary' : 'primary'}" value="email">Send by email</button>` : ''}
+        <p class="err" part="error form-error" id="e-form" role="alert"></p>
+        <div class="actions" part="actions">
+          ${wa ? '<button type="submit" class="primary" part="button primary" value="whatsapp">Send on WhatsApp</button>' : ''}
+          ${em ? `<button type="submit" class="${wa ? 'secondary' : 'primary'}" part="button ${wa ? 'secondary' : 'primary'}" value="email">Send by email</button>` : ''}
         </div>
-        <p class="note">Opens ${wa && em ? 'WhatsApp or your email app' : wa ? 'WhatsApp' : 'your email app'} with your message ready — just press Send.</p>
+        <p class="note" part="note">Opens ${wa && em ? 'WhatsApp or your email app' : wa ? 'WhatsApp' : 'your email app'} with your message ready — just press Send.</p>
       </form>`
     const form = this.root.querySelector('form')!
     form.addEventListener('submit', (event) => this.send(event as SubmitEvent))
@@ -171,10 +171,10 @@ export class RelayForm extends HTMLElement {
   private showDone(channel: string, text: string) {
     const app = channel === 'whatsapp' ? 'WhatsApp' : 'your email app'
     this.root.innerHTML = `<style>${css}</style>
-      <div class="done" role="status">
-        <h2>Almost there ✓</h2>
+      <div class="done" part="done" role="status">
+        <h2 part="heading">Almost there ✓</h2>
         <p>${app} should have opened with your message. Press <strong>Send</strong> there and I'll reply soon.</p>
-        <p>Didn't open? <button class="link" data-copy>Copy the message</button> <button class="link" data-back>Edit and try again</button></p>
+        <p>Didn't open? <button class="link" part="link" data-copy>Copy the message</button> <button class="link" part="link" data-back>Edit and try again</button></p>
       </div>`
     this.root.querySelector('[data-copy]')?.addEventListener('click', async (e) => {
       try {

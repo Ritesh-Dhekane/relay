@@ -14,5 +14,5 @@ export function open(overrides: Record<string, string | undefined> = {}) {
   return true
 }
 
-export const version = '1.0.0'
+export const version = '1.1.0'
 export { RelayButton, RelayForm }

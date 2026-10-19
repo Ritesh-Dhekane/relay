@@ -1,6 +1,7 @@
 // Shadow-DOM styles. Sites theme Relay by setting these CSS variables on the elements (or any parent):
 // --relay-accent, --relay-accent-ink, --relay-bg, --relay-surface, --relay-text, --relay-muted,
-// --relay-line, --relay-danger, --relay-radius, --relay-font.
+// --relay-line, --relay-danger, --relay-radius, --relay-font, --relay-backdrop.
+// For full control every piece has a `part` (see README): relay-form::part(input), relay-button::part(dialog)…
 export const css = `
 :host {
   display: block;
@@ -32,7 +33,8 @@ textarea { min-height: 120px; resize: vertical; }
 input:focus, select:focus, textarea:focus { outline: 2px solid var(--a); outline-offset: 1px; }
 [aria-invalid="true"] { border-color: var(--dg); }
 .phone { display: grid; grid-template-columns: minmax(96px, 34%) 1fr; gap: 8px; }
-.err { color: var(--dg); font-size: 0.8rem; font-weight: 500; min-height: 0; }
+.err { color: var(--dg); font-size: 0.8rem; font-weight: 500; }
+.err:empty { display: none; }
 .count { justify-self: end; color: var(--mu); font-size: 0.75rem; font-weight: 400; }
 .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
 button { font: inherit; cursor: pointer; border-radius: calc(var(--r) * 0.75); padding: 11px 16px; font-weight: 700; }
@@ -64,7 +66,7 @@ dialog {
   width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); padding: 22px; overflow: auto;
   box-shadow: 0 24px 64px rgba(0,0,0,.25);
 }
-dialog::backdrop { background: rgba(10,12,16,.45); }
+dialog::backdrop { background: var(--relay-backdrop, rgba(10,12,16,.45)); }
 .close { position: absolute; top: 10px; right: 10px; border: 0; background: none; cursor: pointer;
   color: var(--relay-muted, #5f6672); font-size: 22px; line-height: 1; padding: 8px; border-radius: 8px; }
 @media (max-width: 560px) {

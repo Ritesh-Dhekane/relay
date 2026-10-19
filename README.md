@@ -55,6 +55,23 @@ Set CSS variables on the elements (or a parent): `--relay-accent`, `--relay-acce
 `--relay-surface`, `--relay-text`, `--relay-muted`, `--relay-line`, `--relay-danger`, `--relay-radius`,
 `--relay-font`.
 
+To match a site exactly, style the pieces directly with CSS `::part()`. The same names work on
+`relay-form` and, for the pop-up's form, on `relay-button`:
+
+| Part | Element |
+| --- | --- |
+| `form`, `heading`, `intro`, `note`, `actions`, `done` | The form and its text blocks |
+| `label`, `label-text`, `optional` | Each field's label, its text, and "(optional)" |
+| `input` (+ `select`, `textarea`) | Every field |
+| `error`, `form-error`, `counter` | Messages under fields, the form-level message, the character count |
+| `button` (+ `primary`, `secondary`), `link` | Send buttons, and the links after sending |
+| `fab`, `fab-text`, `dialog`, `close` | `relay-button` only: the floating button, the pop-up, its close button |
+
+```css
+relay-form::part(input), relay-button::part(input) { border-radius: 4px; }
+relay-button::part(dialog) { border-radius: 8px; }
+```
+
 ### Events
 
 `relay:open` and `relay:send` (`detail`: `channel`, `source`, `kind`) bubble up to the page for analytics.
