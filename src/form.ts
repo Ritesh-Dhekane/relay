@@ -60,12 +60,13 @@ export class RelayForm extends HTMLElement {
     if (this.isConnected) this.render()
   }
 
-  private get fields() {
+  // Not called `fields`: React 19 sets custom-element props as properties when a property of that name exists.
+  private get fieldList() {
     return (this.getAttribute('fields') || DEFAULT_FIELDS).split(',').map((f) => f.trim()).filter(Boolean)
   }
 
   render() {
-    const fields = this.fields
+    const fields = this.fieldList
     const topic = this.getAttribute('topic') || ''
     const parts: string[] = []
     for (let i = 0; i < fields.length; i++) {
