@@ -22,7 +22,12 @@ form { display: grid; gap: 14px; }
 h2 { margin: 0; font-size: 1.25rem; line-height: 1.3; }
 .intro { margin: -6px 0 2px; color: var(--mu); font-size: 0.92rem; }
 .row { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; }
-@media (max-width: 560px) { .row { grid-template-columns: 1fr; } }
+@media (max-width: 560px) {
+  .row { grid-template-columns: 1fr; }
+  input, select, textarea { font-size: 16px; }
+  .actions { flex-direction: column; }
+  .primary, .secondary { flex: 1 1 100%; width: 100%; }
+}
 label { display: grid; gap: 6px; font-size: 0.85rem; font-weight: 600; }
 .opt { color: var(--mu); font-weight: 400; }
 input, select, textarea {
@@ -67,13 +72,14 @@ dialog {
   box-shadow: 0 24px 64px rgba(0,0,0,.25);
 }
 dialog::backdrop { background: var(--relay-backdrop, rgba(10,12,16,.45)); }
-.close { position: absolute; top: 10px; right: 10px; border: 0; background: none; cursor: pointer;
+.close { position: sticky; top: 0; float: right; margin: -6px -6px 0 0; z-index: 2; border: 0; background: var(--relay-bg, #fff); cursor: pointer;
   color: var(--relay-muted, #5f6672); font-size: 22px; line-height: 1; padding: 8px; border-radius: 8px; }
 @media (max-width: 560px) {
   dialog { margin: auto 0 0; width: 100vw; max-width: 100vw; border-radius: var(--relay-radius, 14px) var(--relay-radius, 14px) 0 0;
-    max-height: 92dvh; padding: 20px 16px calc(20px + env(safe-area-inset-bottom)); }
+    border-left: 0; border-right: 0; border-bottom: 0;
+    max-height: 90dvh; padding: 20px 16px calc(24px + env(safe-area-inset-bottom)); }
   .fab .text { display: none; }
-  .fab { padding: 14px; }
+  .fab { width: 48px; height: 48px; padding: 0; justify-content: center; border-radius: 999px; }
 }
 @media (prefers-reduced-motion: reduce) { .fab { transition: none; } }
 `
