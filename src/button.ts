@@ -18,7 +18,7 @@ export class RelayButton extends HTMLElement {
     this.root.innerHTML = `<style>${buttonCss}</style>
       <button class="fab" part="fab" type="button" aria-haspopup="dialog" aria-label="${label}">${ICON}<span class="text" part="fab-text">${label}</span></button>
       <dialog part="dialog" aria-label="${this.getAttribute('heading') || label}">
-        <button class="close" part="close" type="button" aria-label="Close">×</button>
+        <div class="close-bar"><button class="close" part="close" type="button" aria-label="Close">×</button></div>
       </dialog>`
     this.root.querySelector('.fab')!.addEventListener('click', () => this.open())
     const dialog = this.root.querySelector('dialog')!
