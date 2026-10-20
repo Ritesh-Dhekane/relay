@@ -19,12 +19,13 @@ export const css = `
 }
 * { box-sizing: border-box; }
 form { display: grid; gap: 14px; }
-h2 { margin: 0; font-size: 1.25rem; line-height: 1.3; }
+h2 { margin: 0; font-size: 1.25rem; line-height: 1.3; padding-right: 36px; } /* clear of the pop-up's close button */
 .intro { margin: -6px 0 2px; color: var(--mu); font-size: 0.92rem; }
 .row { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; }
 @media (max-width: 560px) {
   .row { grid-template-columns: 1fr; }
-  input, select, textarea { font-size: 16px; }
+  input, select, textarea { font-size: 16px; } /* 16px+ stops iPhone Safari zooming in on focus */
+  .phone { grid-template-columns: minmax(120px, 42%) 1fr; }
   .actions { flex-direction: column; }
   .primary, .secondary { flex: 1 1 100%; width: 100%; }
 }
@@ -72,8 +73,12 @@ dialog {
   box-shadow: 0 24px 64px rgba(0,0,0,.25);
 }
 dialog::backdrop { background: var(--relay-backdrop, rgba(10,12,16,.45)); }
-.close { position: sticky; top: 0; float: right; margin: -6px -6px 0 0; z-index: 2; border: 0; background: var(--relay-bg, #fff); cursor: pointer;
-  color: var(--relay-muted, #5f6672); font-size: 22px; line-height: 1; padding: 8px; border-radius: 8px; }
+/* The close button sits in a zero-height bar pinned to the top of the sheet: it stays visible while the
+   form scrolls but takes no space, so the form keeps its full width (a float here squeezed the form). */
+.close-bar { position: sticky; top: 0; height: 0; z-index: 2; }
+.close { position: absolute; top: -12px; right: -12px; width: 40px; height: 40px; display: grid; place-items: center;
+  border: 0; background: var(--relay-bg, #fff); cursor: pointer; color: var(--relay-muted, #5f6672);
+  font-size: 22px; line-height: 1; padding: 0; border-radius: 8px; }
 @media (max-width: 560px) {
   dialog { margin: auto 0 0; width: 100vw; max-width: 100vw; border-radius: var(--relay-radius, 14px) var(--relay-radius, 14px) 0 0;
     border-left: 0; border-right: 0; border-bottom: 0;
