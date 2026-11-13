@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Relay · drop-in contact form</title>
+    <meta name="description" content="A drop-in contact and feedback form: visitors fill a short form and it opens WhatsApp or email with the message ready to send." />
+    <style>
+      :root { color-scheme: light dark; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+      body { margin: 0; background: #f6f7f9; color: #16181d; line-height: 1.6; }
+      main { max-width: 720px; margin: 0 auto; padding: 40px 16px 120px; }
+      .card { background: #fff; border: 1px solid #e2e5ea; border-radius: 16px; padding: 24px; margin: 24px 0; }
+      code, pre { font-family: ui-monospace, Consolas, monospace; font-size: 0.85rem; }
+      pre { background: #16181d; color: #e9edf2; padding: 14px; border-radius: 10px; overflow-x: auto; }
+      relay-form, relay-button { --relay-accent: #0f766e; }
+      @media (prefers-color-scheme: dark) {
+        body { background: #0f1115; color: #eef0f3; }
+        .card { background: #171a20; border-color: #2a2f38; }
+        relay-form, relay-button { --relay-bg: #171a20; --relay-surface: #0f1115; --relay-text: #eef0f3; --relay-muted: #9aa2ae; --relay-line: #2a2f38; --relay-accent: #2dd4bf; --relay-accent-ink: #062b28; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Relay</h1>
+      <p>A drop-in contact and feedback form. Visitors fill a short form (every field optional, but checked when filled) and it opens <strong>WhatsApp</strong> or <strong>email</strong> with the message ready to send. No server, no sign-up.</p>
+      <div class="card">
+        <relay-form source="relay-demo" kind="contact" heading="Try it" intro="Messages go to a demo number and address."
+          fields="name,email,phone,company,topic,budget,timeline,message"
+          whatsapp="910000000000" email="demo@example.com" greeting="Hello," subject="Relay demo"></relay-form>
+      </div>
+      <h2>Use it</h2>
+      <pre>&lt;script src="https://ritesh-dhekane.github.io/relay/v1/relay.js" defer&gt;&lt;/script&gt;
+
+&lt;!-- A form on the page --&gt;
+&lt;relay-form source="my-app" kind="feedback" fields="name,email,message"
+  whatsapp="91XXXXXXXXXX" email="you@example.com"&gt;&lt;/relay-form&gt;
+
+&lt;!-- Or a floating button that opens it in a pop-up --&gt;
+&lt;relay-button source="my-app" kind="support" whatsapp="91XXXXXXXXXX"&gt;&lt;/relay-button&gt;</pre>
+      <p>See the <a href="https://github.com/Ritesh-Dhekane/relay">README</a> for every option.</p>
+    </main>
+    <relay-button source="relay-demo" kind="contact" whatsapp="910000000000" email="demo@example.com" heading="Say hello" fields="name,email,message"></relay-button>
+    <script src="./v1/relay.js" defer></script>
+  </body>
+</html>
